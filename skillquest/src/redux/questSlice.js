@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+const savedQuests = localStorage.getItem("skillquest_quests");
 
-const initialState = [
+const defaultQuests  = [
     {
         id: 1,
         title: "Learn React Components",
@@ -26,6 +27,9 @@ const initialState = [
         completed: false,
     },
 ];
+const initialState = savedQuests
+    ? JSON.parse(savedQuests)
+    : defaultQuests;
 
 const questSlice = createSlice({
     name: "quests",
