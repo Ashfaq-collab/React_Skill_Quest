@@ -1,23 +1,44 @@
+import { NavLink } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
       <div className="container">
-        <a className="navbar-brand fw-bold" href="/">
+        <NavLink
+          className="navbar-brand fw-bold"
+          to="/"
+        >
           ⚔️ SkillQuest
-        </a>
+        </NavLink>
 
         <div className="d-flex gap-3">
-          <a className="nav-link text-white" href="/">
+          <NavLink
+            className="nav-link text-white"
+            to="/"
+          >
             Dashboard
-          </a>
+          </NavLink>
 
-          <a className="nav-link text-white" href="/quests">
+          <NavLink
+            className="nav-link text-white"
+            to="/quests"
+          >
             Quests
-          </a>
+          </NavLink>
 
-          <a className="nav-link text-white" href="/challenges">
+          <NavLink
+            className="nav-link text-white"
+            to="/challenges"
+          >
             Challenges
-          </a>
+          </NavLink>
+
+          <NavLink
+            className="nav-link text-white"
+            to="/progress"
+          >
+            Progress
+          </NavLink>
         </div>
       </div>
     </nav>
