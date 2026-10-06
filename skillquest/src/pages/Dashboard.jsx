@@ -1,21 +1,26 @@
 import { useState } from "react";
-
 import StatCard from "../components/StatCard";
 import XPBar from "../components/XPBar";
 import QuestCard from "../components/QuestCard";
+import { completeQuest } from "../redux/questSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-function Dashboard({quests, onCompleteQuest }) {
+function Dashboard() {
     const [xp, setXp] = useState(720);
     const [selectedCategory, setSelectedCategory] = useState("All");
+    const quests = useSelector((state) => state.quests);
+    const dispatch = useDispatch();
 
-    const completeQuest = (questId) => {
-        const quest = quests.find((quest) => quest.id === questId);
+    const completeQuestHandler = (questId) => {
+        const quest = quests.find(
+            (quest) => quest.id === questId
+        );
 
         if (!quest || quest.completed) {
             return;
         }
 
-        onCompleteQuest(questId);
+        dispatch(completeQuest(questId));
 
         setXp((currentXP) => currentXP + quest.xp);
     };
@@ -112,7 +117,7 @@ function Dashboard({quests, onCompleteQuest }) {
                             <QuestCard
                                 key={quest.id}
                                 quest={quest}
-                                onComplete={completeQuest}
+                                onComplete={completeQuestHandler}
                             />
                         ))
                     ) : (

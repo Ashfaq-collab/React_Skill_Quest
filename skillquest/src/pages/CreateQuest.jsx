@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addQuest } from "../redux/questSlice";
 
-function CreateQuest({ onCreateQuest }) {
+function CreateQuest() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("React");
     const [xp, setXp] = useState(100);
+    const dispatch = useDispatch();
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -18,7 +21,7 @@ function CreateQuest({ onCreateQuest }) {
             completed: false,
         };
 
-        onCreateQuest(newQuest);
+        dispatch(addQuest(newQuest));
     }
 
     return (

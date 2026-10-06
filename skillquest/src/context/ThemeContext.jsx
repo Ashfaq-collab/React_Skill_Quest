@@ -1,10 +1,14 @@
 import { createContext } from "react";
 import { useEffect, useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useLocalStorage(
+        "skillquest_theme",
+        "light"
+    );
 
     function toggleTheme() {
         setTheme((currentTheme) =>
