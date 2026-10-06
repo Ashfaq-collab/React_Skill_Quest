@@ -4,34 +4,7 @@ import StatCard from "../components/StatCard";
 import XPBar from "../components/XPBar";
 import QuestCard from "../components/QuestCard";
 
-function Dashboard() {
-    const [quests, setQuests] = useState([
-        {
-            id: 1,
-            title: "Learn React Components",
-            description: "Understand how reusable React components work.",
-            category: "React",
-            xp: 100,
-            completed: true,
-        },
-        {
-            id: 2,
-            title: "Practice React Props",
-            description: "Build components that communicate using props.",
-            category: "React",
-            xp: 75,
-            completed: false,
-        },
-        {
-            id: 3,
-            title: "Build a Bootstrap Layout",
-            description: "Create a responsive layout using Bootstrap.",
-            category: "CSS",
-            xp: 50,
-            completed: false,
-        },
-    ]);
-
+function Dashboard({quests, onCompleteQuest }) {
     const [xp, setXp] = useState(720);
     const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -42,13 +15,7 @@ function Dashboard() {
             return;
         }
 
-        setQuests((currentQuests) =>
-            currentQuests.map((quest) =>
-                quest.id === questId
-                    ? { ...quest, completed: true }
-                    : quest
-            )
-        );
+        onCompleteQuest(questId);
 
         setXp((currentXP) => currentXP + quest.xp);
     };
