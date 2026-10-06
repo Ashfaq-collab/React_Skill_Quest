@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import Layout from "./components/Layout";
+
 import Dashboard from "./pages/Dashboard";
 import Quests from "./pages/Quests";
 import CreateQuest from "./pages/CreateQuest";
@@ -9,30 +11,26 @@ import Progress from "./pages/Progress";
 function App() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<Dashboard />}
-      />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Dashboard />} />
 
-      <Route
-        path="/quests"
-        element={<Quests />}
-      />
+        <Route path="/quests" element={<Quests />} />
 
-      <Route
-        path="/quests/create"
-        element={<CreateQuest />}
-      />
+        <Route
+          path="/quests/create"
+          element={<CreateQuest />}
+        />
 
-      <Route
-        path="/challenges"
-        element={<Challenges />}
-      />
+        <Route
+          path="/challenges"
+          element={<Challenges />}
+        />
 
-      <Route
-        path="/progress"
-        element={<Progress />}
-      />
+        <Route
+          path="/progress"
+          element={<Progress />}
+        />
+      </Route>
 
       <Route
         path="*"

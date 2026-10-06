@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import XPBar from "../components/XPBar";
 import QuestCard from "../components/QuestCard";
@@ -62,9 +61,7 @@ function Dashboard() {
 
     return (
         <>
-            <Navbar />
-
-            <main className="container py-5">
+            <div className="container py-5">
                 {/* Welcome */}
                 <section className="mb-5">
                     <h1 className="fw-bold">
@@ -157,7 +154,7 @@ function Dashboard() {
                         </p>
                     )}
                 </section>
-            </main>
+            </div>
         </>
     );
 }
