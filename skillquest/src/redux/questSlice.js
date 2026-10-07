@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-const savedQuests = localStorage.getItem("skillquest_quests");
 
-const defaultQuests  = [
+const defaultQuests = [
     {
         id: 1,
         title: "Learn React Components",
@@ -27,9 +26,30 @@ const defaultQuests  = [
         completed: false,
     },
 ];
-const initialState = savedQuests
-    ? JSON.parse(savedQuests)
-    : defaultQuests;
+
+const savedState = localStorage.getItem("skillquest_quests");
+
+let initialState;
+
+if (savedState) {
+    const parsedState = JSON.parse(savedState);
+
+    // Old version stored only an array of quests
+    if (Array.isArray(parsedState)) {
+        initialState = {
+            quests: parsedState,
+            xp: 720,
+        };
+    } else {
+        // New version stores quests + xp
+        initialState = parsedState;
+    }
+} else {
+    initialState = {
+        quests: defaultQuests,
+        xp: 720,
+    };
+}
 
 const questSlice = createSlice({
     name: "quests",
@@ -37,16 +57,17 @@ const questSlice = createSlice({
 
     reducers: {
         addQuest: (state, action) => {
-            state.push(action.payload);
+            state.quests.push(action.payload);
         },
 
         completeQuest: (state, action) => {
-            const quest = state.find(
+            const quest = state.quests.find(
                 (quest) => quest.id === action.payload
             );
 
-            if (quest) {
+            if (quest && !quest.completed) {
                 quest.completed = true;
+                state.xp += quest.xp;
             }
         },
     },
@@ -57,4 +78,4 @@ export const {
     completeQuest,
 } = questSlice.actions;
 
-export default questSlice.reducer;  
+export default questSlice.reducer;

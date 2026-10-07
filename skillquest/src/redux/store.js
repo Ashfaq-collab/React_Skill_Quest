@@ -16,5 +16,4 @@ Store.subscribe(() => {
     );
 });
 
-
 export default Store;

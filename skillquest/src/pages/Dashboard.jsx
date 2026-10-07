@@ -4,26 +4,23 @@ import XPBar from "../components/XPBar";
 import QuestCard from "../components/QuestCard";
 import { completeQuest } from "../redux/questSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { calculateLevel } from "../utils/helpers";
 
 function Dashboard() {
-    const [xp, setXp] = useState(720);
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const quests = useSelector((state) => state.quests);
+
+    const { quests, xp } = useSelector(
+        (state) => state.quests
+    );
+    
+    const level = calculateLevel(xp);
+
     const dispatch = useDispatch();
 
     const completeQuestHandler = (questId) => {
-        const quest = quests.find(
-            (quest) => quest.id === questId
-        );
-
-        if (!quest || quest.completed) {
-            return;
-        }
-
         dispatch(completeQuest(questId));
-
-        setXp((currentXP) => currentXP + quest.xp);
     };
+
     const filteredQuests =
         selectedCategory === "All"
             ? quests
@@ -59,7 +56,7 @@ function Dashboard() {
                         <div className="col-md-4">
                             <StatCard
                                 title="Current Level"
-                                value={xp}
+                                value={level}
                                 icon="🏆"
                             />
                         </div>
