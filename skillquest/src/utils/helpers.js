@@ -21,3 +21,22 @@ export function getDailyChallenge(challenges) {
 
     return challenges[index];
 }
+
+export function addProgressHistory(
+    history,
+    date,
+    xp
+) {
+    const existingEntry = history.find(
+        (entry) => entry.date === date
+    );
+
+    if (existingEntry) {
+        existingEntry.xp += xp;
+    } else {
+        history.push({
+            date,
+            xp,
+        });
+    }
+}

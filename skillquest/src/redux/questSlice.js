@@ -1,4 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {
+    addProgressHistory,
+} from "../utils/helpers";
 
 const defaultQuests = [
     {
@@ -41,6 +44,7 @@ if (savedState) {
             xp: 720,
             streak: 0,
             lastCompletedDate: null,
+            progressHistory: []
         };
     } else {
         initialState = {
@@ -49,7 +53,9 @@ if (savedState) {
             streak: parsedState.streak ?? 0,
             lastCompletedDate: parsedState.lastCompletedDate ?? null,
             dailyChallengeCompletedDate:
-                parsedState.dailyChallengeCompletedDate ?? null
+                parsedState.dailyChallengeCompletedDate ?? null,
+            progressHistory:
+                parsedState.progressHistory ?? []
         };
     }
 } else {
@@ -58,7 +64,8 @@ if (savedState) {
         xp: 720,
         streak: 0,
         lastCompletedDate: null,
-        dailyChallengeCompletedDate: null
+        dailyChallengeCompletedDate: null,
+        progressHistory: []
     };
 }
 
@@ -81,6 +88,12 @@ const questSlice = createSlice({
             if (quest && !quest.completed) {
                 quest.completed = true;
                 state.xp += quest.xp;
+
+                addProgressHistory(
+                    state.progressHistory,
+                    completedDate,
+                    quest.xp
+                );
 
                 if (state.lastCompletedDate === completedDate) {
                     return;
@@ -123,6 +136,12 @@ const questSlice = createSlice({
 
             state.xp += xp;
 
+            addProgressHistory(
+                state.progressHistory,
+                completedDate,
+                xp
+            );
+
             state.dailyChallengeCompletedDate =
                 completedDate;
         }
@@ -131,7 +150,7 @@ const questSlice = createSlice({
 
 export const {
     addQuest,
-    completeQuest, 
+    completeQuest,
     completeDailyChallenge
 } = questSlice.actions;
 
