@@ -1,14 +1,40 @@
-import { useState } from "react";
+
 import challenges from "../data/challenges";
-import { getDailyChallenge } from "../utils/helpers";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
+import {
+  completeDailyChallenge,
+} from "../redux/questSlice";
+
+import {
+  getTodayDate,
+  getDailyChallenge,
+} from "../utils/helpers";
 
 function Challenges() {
-  const [completed, setCompleted] = useState(false);
+  const dispatch = useDispatch();
+
+  const dailyChallengeCompletedDate =
+    useSelector(
+      (state) =>
+        state.quests.dailyChallengeCompletedDate
+    );
+  const today = getTodayDate();
 
   const challenge = getDailyChallenge(challenges);
 
+  const completed =
+    dailyChallengeCompletedDate === today;
+
   function handleComplete() {
-    setCompleted(true);
+    dispatch(
+      completeDailyChallenge({
+        completedDate: today,
+        xp: challenge.xp,
+      })
+    );
   }
 
   return (

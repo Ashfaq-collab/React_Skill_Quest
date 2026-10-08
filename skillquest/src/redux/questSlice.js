@@ -48,6 +48,8 @@ if (savedState) {
             xp: parsedState.xp,
             streak: parsedState.streak ?? 0,
             lastCompletedDate: parsedState.lastCompletedDate ?? null,
+            dailyChallengeCompletedDate:
+                parsedState.dailyChallengeCompletedDate ?? null
         };
     }
 } else {
@@ -56,6 +58,7 @@ if (savedState) {
         xp: 720,
         streak: 0,
         lastCompletedDate: null,
+        dailyChallengeCompletedDate: null
     };
 }
 
@@ -108,12 +111,28 @@ const questSlice = createSlice({
                 state.lastCompletedDate = completedDate;
             }
         },
+        completeDailyChallenge: (state, action) => {
+            const { completedDate, xp } = action.payload;
+
+            if (
+                state.dailyChallengeCompletedDate ===
+                completedDate
+            ) {
+                return;
+            }
+
+            state.xp += xp;
+
+            state.dailyChallengeCompletedDate =
+                completedDate;
+        }
     },
 });
 
 export const {
     addQuest,
-    completeQuest,
+    completeQuest, 
+    completeDailyChallenge
 } = questSlice.actions;
 
 export default questSlice.reducer;
