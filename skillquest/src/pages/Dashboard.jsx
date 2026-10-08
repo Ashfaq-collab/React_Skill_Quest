@@ -9,16 +9,27 @@ import { calculateLevel } from "../utils/helpers";
 function Dashboard() {
     const [selectedCategory, setSelectedCategory] = useState("All");
 
-    const { quests, xp } = useSelector(
-        (state) => state.quests
-    );
-    
+    const {
+        quests,
+        xp,
+        streak,
+    } = useSelector((state) => state.quests);
+
     const level = calculateLevel(xp);
 
     const dispatch = useDispatch();
 
     const completeQuestHandler = (questId) => {
-        dispatch(completeQuest(questId));
+        const completedDate = new Date()
+            .toISOString()
+            .split("T")[0];
+
+        dispatch(
+            completeQuest({
+                questId,
+                completedDate,
+            })
+        );
     };
 
     const filteredQuests =
@@ -64,7 +75,7 @@ function Dashboard() {
                         <div className="col-md-4">
                             <StatCard
                                 title="Day Streak"
-                                value={xp}
+                                value={streak}
                                 icon="🔥"
                             />
                         </div>

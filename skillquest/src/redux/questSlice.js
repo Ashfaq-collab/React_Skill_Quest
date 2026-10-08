@@ -39,15 +39,23 @@ if (savedState) {
         initialState = {
             quests: parsedState,
             xp: 720,
+            streak: 0,
+            lastCompletedDate: null,
         };
     } else {
-        // New version stores quests + xp
-        initialState = parsedState;
+        initialState = {
+            quests: parsedState.quests,
+            xp: parsedState.xp,
+            streak: parsedState.streak ?? 0,
+            lastCompletedDate: parsedState.lastCompletedDate ?? null,
+        };
     }
 } else {
     initialState = {
         quests: defaultQuests,
         xp: 720,
+        streak: 0,
+        lastCompletedDate: null,
     };
 }
 
@@ -61,13 +69,43 @@ const questSlice = createSlice({
         },
 
         completeQuest: (state, action) => {
+            const { questId, completedDate } = action.payload;
+
             const quest = state.quests.find(
-                (quest) => quest.id === action.payload
+                (quest) => quest.id === questId
             );
 
             if (quest && !quest.completed) {
                 quest.completed = true;
                 state.xp += quest.xp;
+
+                if (state.lastCompletedDate === completedDate) {
+                    return;
+                }
+
+                if (!state.lastCompletedDate) {
+                    state.streak = 1;
+                } else {
+                    const previousDate = new Date(
+                        state.lastCompletedDate
+                    );
+
+                    const currentDate = new Date(
+                        completedDate
+                    );
+
+                    const difference =
+                        (currentDate - previousDate) /
+                        (1000 * 60 * 60 * 24);
+
+                    if (difference === 1) {
+                        state.streak += 1;
+                    } else {
+                        state.streak = 1;
+                    }
+                }
+
+                state.lastCompletedDate = completedDate;
             }
         },
     },
