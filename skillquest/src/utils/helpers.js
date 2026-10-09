@@ -1,5 +1,9 @@
+const XP_PER_LEVEL = Number(
+    import.meta.env.VITE_XP_PER_LEVEL || 1000
+);
+
 export function calculateLevel(xp) {
-    return Math.floor(xp / 1000) + 1;
+    return Math.floor(xp /XP_PER_LEVEL) + 1;
 }
 export function getTodayDate() {
     const today = new Date();

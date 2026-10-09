@@ -7,7 +7,7 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
     const [theme, setTheme] = useLocalStorage(
         "skillquest_theme",
-        "light"
+        import.meta.env.VITE_DEFAULT_THEME || "light"
     );
 
     function toggleTheme() {
