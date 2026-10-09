@@ -11,7 +11,7 @@ function Navbar() {
                     className="navbar-brand fw-bold"
                     to="/"
                 >
-                    ⚔️ SkillQuest
+                    ⚔️  {import.meta.env.VITE_APP_NAME || "SkillQuest"}
                 </NavLink>
 
                 <div className="d-flex gap-3">
