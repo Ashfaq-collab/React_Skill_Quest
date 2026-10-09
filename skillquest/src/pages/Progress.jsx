@@ -1,10 +1,34 @@
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Progress() {
   const progressHistory = useSelector(
     (state) => state.quests.progressHistory
   );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    setLoading(true);
 
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  if (error) {
+    return (
+      <div className="container py-5">
+        <div className="alert alert-danger">
+          {error}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="container py-5">
       <section className="mb-5">
